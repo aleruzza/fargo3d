@@ -100,38 +100,43 @@ void StockholmBoundary_cpu(real dt) {
 //<\EXTERNAL>
 
 //<INTERNAL>
-  int i;
-  int j;
-  int k;
+  
   //  Similar to Benitez-Llambay et al. (2016), Eq. 7.
   #ifndef MANUALDAMPBOUNDY
   real Y_inf = y_min*pow(dampingzone, 2.0/3.0);
   real Y_sup = y_max*pow(dampingzone,-2.0/3.0);
   #endif
+  #ifdef MANUALDAMPBOUNDY
+  real Y_inf = YDAMPINF;
+  real Y_sup = YDAMPSUP;
+  #endif
   real Z_inf = z_min - (z_max-z_min); // Here we push Z_inf & Z_sup
   real Z_sup = z_max + (z_max-z_min); // out of the mesh
-  #ifdef CYLINDRICAL
-    Z_inf = z_min + (z_max-z_min)*0.1;
-    Z_sup = z_max - (z_max-z_min)*0.1;
-    if (periodic_z) { // Push Z_inf & Z_sup out of mesh if periodic in Z
-      Z_inf = z_min-r0;
-      Z_sup = z_max+r0;
-    }
-  #endif
-  #ifdef SPHERICAL
-    Z_inf = M_PI/2.0-(M_PI/2.0-z_min)*(1.0-kbcol);
-    Z_sup = M_PI/2.0+(M_PI/2.0-z_min)*(1.0-kbcol); // Avoid damping in ghost zones
-    // if only half upper disk is covered by the mesh
-  #endif
-    real radius;
-    real vx0_target;
-    real rampy;
-    real rampz;
-    real rampzz;
-    real rampi;
-    real ramp;
-    real tau;
-    real taud;
+#ifdef CYLINDRICAL
+  Z_inf = z_min + (z_max-z_min)*0.1;
+  Z_sup = z_max - (z_max-z_min)*0.1;
+  if (periodic_z) { // Push Z_inf & Z_sup out of mesh if periodic in Z
+    Z_inf = z_min-r0;
+    Z_sup = z_max+r0;
+  }
+#endif
+#ifdef SPHERICAL
+  Z_inf = M_PI/2.0-(M_PI/2.0-z_min)*(1.0-kbcol);
+  Z_sup = M_PI/2.0+(M_PI/2.0-z_min)*(1.0-kbcol); // Avoid damping in ghost zones
+  // if only half upper disk is covered by the mesh
+#endif
+  real radius;
+  real vx0_target;
+  real rampy;
+  real rampz;
+  real rampzz;
+  real rampi;
+  real ramp;
+  real tau;
+  real taud;
+  int i;
+  int j;
+  int k;
 //<\INTERNAL>
 
 //<CONSTANT>
@@ -144,7 +149,13 @@ void StockholmBoundary_cpu(real dt) {
 
   i = j = k = 0;
 
-#ifdef Zpitch2d
+#ifdef Z
+  for (k=0; k<size_z; k++) {
+#endif
+#ifdef Y
+    for (j=0; j<size_y; j++) {
+#endif
+#ifdef X
       for (i=0; i<size_x; i++) {
 #endif
 //<#>
@@ -182,12 +193,12 @@ void StockholmBoundary_cpu(real dt) {
 	}
 	ramp = rampy+rampz;
 	rampi= rampy+rampzz;
-	tau = ds*sqrt(ymed(j)*ymed(j)*ymed(j)/g/mstar);
+	tau = ds*sqrt(ymed(j)*ymed(j)*ymed(j)/G/MSTAR);
 	if(ramp>0.0) {
 	  taud = tau/ramp;
-	  rho[l] = (rho[l]*taud+rho0[l2D]*dt/normfact)/(dt+taud);
+	  rho[l] = (rho[l]*taud+rho0[l2D]*dt)/(dt+taud);
 #ifdef X
-	  vx0_target = vx0[l2D]/normfact;
+	  vx0_target = vx0[l2D];
 	  radius = ymed(j);
 #ifdef SPHERICAL
 	  radius *= sin(zmed(k));
@@ -198,14 +209,14 @@ void StockholmBoundary_cpu(real dt) {
 #ifdef Y
 if((ymed(j)<1) && (i==6))
  // printf("%f, %f, %f, %f\n", ymed(j), dt, taud, vy[l]);
-    vy[l] = (vy[l]*taud+vy0[l2D]*dt/normfact)/(dt+taud);
+    vy[l] = (vy[l]*taud+vy0[l2D]*dt)/(dt+taud);
     //vy[l] = vy0[l2D];
 #endif
 	}
 #ifdef Z
 	if(rampi>0.0) {
 	  taud = tau/rampi;
-	  vz[l] = (vz[l]*taud+vz0[l2D]*dt/normfact)/(dt+taud);
+	  vz[l] = (vz[l]*taud+vz0[l2D]*dt)/(dt+taud);
 	}
 #endif
 //<\#>
