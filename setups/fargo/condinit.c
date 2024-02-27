@@ -30,8 +30,9 @@ void Init() {
       r = Ymed(j);
       omega = sqrt(G*MSTAR/r/r/r);
       
-      rho[l] = SIGMA0*pow(r/R0,-SIGMASLOPE)*(1.0+NOISE*(drand48()-.5));
+      rho[l] = SIGMA0*pow(r/R0,-SIGMASLOPE);
       soundspeed  = ASPECTRATIO*pow(r/R0,FLARINGINDEX)*omega*r;
+      
 
 #ifdef ISOTHERMAL
       cs[l] = soundspeed;
@@ -43,9 +44,8 @@ void Init() {
       vphi[l] = omega*r*sqrt(1.0+pow(ASPECTRATIO,2)*pow(r/R0,2*FLARINGINDEX)*
 			     (2.0*FLARINGINDEX - 1.0 - SIGMASLOPE));
       vphi[l] -= OMEGAFRAME*r;
-      vphi[l] *= (1.+ASPECTRATIO*NOISE*(drand48()-.5));
       
-      vr[l]    = soundspeed*NOISE*(drand48()-.5);
+      vr[l]    = -1.5*ALPHA*pow(ASPECTRATIO, 2)*pow(r/R0,2*FLARINGINDEX-0.5);
     }
   } 
 }

@@ -582,12 +582,15 @@ void SelectFluid(int n) {
   Vz_temp = Fluids[n]->Vz_temp;
   Vz_half = Fluids[n]->Vz_half;
 #endif
-#ifdef STOCKHOLM
+#if defined STOCKHOLM || defined BETACOOLING
   Density0 = Fluids[n]->Density0;
   Energy0 = Fluids[n]->Energy0;
   Vx0 = Fluids[n]->Vx0;
   Vy0 = Fluids[n]->Vy0;
   Vz0 = Fluids[n]->Vz0;
+  #ifdef BETACOOLING
+  OmegaOverBeta = Fluids[n]->OmegaOverBeta;
+  #endif
 #endif
 }
 

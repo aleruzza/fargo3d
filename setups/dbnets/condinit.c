@@ -22,25 +22,25 @@ void _CondInit() {
         r     = Ymed(j);
         omega = sqrt(G*MSTAR/r/r/r);                       //Keplerian frequency
         rhog  = SIGMA0*pow(r/R0,-SIGMASLOPE);              //Gas surface density
-              rhod  = rhog*EPSILON;                              //Dust surface density
+        rhod  = rhog*EPSILON;                              //Dust surface density
 
-        if (Fluidtype == GAS) {
-          rho[l]   = rhog;
-          vphi[l]  = omega*r*sqrt(1.0 + pow(ASPECTRATIO,2)*pow(r/R0,2*FLARINGINDEX)*
-                (2.0*FLARINGINDEX - 1.0 - SIGMASLOPE));
-          vr[l]    = 0.0;
-          cs[l]    = ASPECTRATIO*pow(r/R0,FLARINGINDEX)*omega*r;
-        }
-        
-        if (Fluidtype == DUST) {
-          rho[l]  = rhod;
-          vphi[l] = omega*r;
-          vr[l]   = 0.0;
-          cs[l]   = 0.0;
-        }
-        
-        vphi[l] -= OMEGAFRAME*r;
-        
+	if (Fluidtype == GAS) {
+	  rho[l]   = rhog;
+	  vphi[l]  = omega*r*sqrt(1.0 + pow(ASPECTRATIO,2)*pow(r/R0,2*FLARINGINDEX)*
+				  (2.0*FLARINGINDEX - 1.0 - SIGMASLOPE));
+	  vr[l]    = -1.5*ALPHA*pow(ASPECTRATIO, 2)*pow(r/R0,2*FLARINGINDEX-0.5);
+	  cs[l]    = ASPECTRATIO*pow(r/R0,FLARINGINDEX)*omega*r;
+	}
+	
+	if (Fluidtype == DUST) {
+	  rho[l]  = rhod;
+	  vphi[l] = omega*r;
+	  vr[l]    = (-1.5*ALPHA+(2*FLARINGINDEX-1-SIGMASLOPE)/INVSTOKES1)*pow(ASPECTRATIO, 2)*pow(r/R0,2*FLARINGINDEX-0.5);
+	  cs[l]   = 0.0;
+	}
+	
+	vphi[l] -= OMEGAFRAME*r;
+	
       }
     }
   }
@@ -49,7 +49,7 @@ void _CondInit() {
 void CondInit() {
   
   int id_gas = 0;
-  int feedback = YES;
+  int feedback = NO;
   //We first create the gaseous fluid and store it in the array Fluids[]
   Fluids[id_gas] = CreateFluid("gas",GAS);
 
@@ -77,7 +77,5 @@ void CondInit() {
    If feedback=NO, gas does not feel the drag force.*/
   
   ColRate(INVSTOKES1, id_gas, 1, feedback);
-  ColRate(INVSTOKES2, id_gas, 2, feedback);
-  ColRate(INVSTOKES3, id_gas, 3, feedback);
 
 }

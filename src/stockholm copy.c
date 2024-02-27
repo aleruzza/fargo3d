@@ -14,59 +14,109 @@ void StockholmBoundary_cpu(real dt) {
   INPUT(Density);
   INPUT2D(Density0);
   OUTPUT(Density);
-  #ifdef ADIABATIC
-    INPUT(Energy);
-    INPUT2D(Energy0);
-    OUTPUT(Energy);
-  #endif
-  #ifdef X
-    INPUT(Vx);
-    INPUT2D(Vx0);
-    OUTPUT(Vx);
-  #endif
-  #ifdef Y
-    INPUT(Vy);
-    INPUT2D(Vy0);
-    OUTPUT(Vy);
-  #endif
-  #ifdef Z
-    INPUT(Vz);
-    INPUT2D(Vz0);
-    OUTPUT(Vz);
-  #endif
-  #ifdef STOCKHOLMAAV
-    reduction_SUM(Density, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
-    copy_field(Density0, Reduction2D);
-  #endif
-  #ifdef STOCKHOLMAAV
-    reduction_SUM(Vx, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
-    copy_field(Vx0, Reduction2D);
-  #endif
-  #ifdef STOCKHOLMAAV
-    reduction_SUM(Vy, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
-    copy_field(Vy0, Reduction2D);
-  #endif
+#ifdef ADIABATIC
+  INPUT(Energy);
+  INPUT2D(Energy0);
+  OUTPUT(Energy);
+#endif
+#ifdef X
+  INPUT(Vx);
+  INPUT2D(Vx0);
+  OUTPUT(Vx);
+#endif
+#ifdef Y
+  INPUT(Vy);
+  INPUT2D(Vy0);
+  OUTPUT(Vy);
+#endif
+#ifdef Z
+  INPUT(Vz);
+  INPUT2D(Vz0);
+  OUTPUT(Vz);
+#endif
 //<\USER_DEFINED>
 
 //<EXTERNAL>
+int i,j,k;
   real* rho  = Density->field_cpu;
-  real* rho0 = Density0->field_cpu;
-  #ifdef X
-    real* vx  = Vx->field_cpu;
-    real* vx0 = Vx0->field_cpu;
+  #ifndef STOCKHOLMAAV
+    real* rho0 = Density0->field_cpu;
+  #endif
+  #ifdef STOCKHOLMAAV
+    reduction_SUM(Density, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
+    #ifdef Z
+  for (k = 0; k < Nz+2*NGHZ; k++) {
   #endif
   #ifdef Y
-    real* vy  = Vy->field_cpu;
-    real* vy0 = Vy0->field_cpu;
+      for (j = 0; j < Ny+2*NGHY; j++) {
+  #endif
+        int ll2D = l2D;
+        Density0->field_cpu[ll2D] = Reduction2D->field_cpu[ll2D]/(real)Nx;
+  #ifdef Y
+      }
   #endif
   #ifdef Z
-    real* vz  = Vz->field_cpu;
-    real* vz0 = Vz0->field_cpu;
+    }
   #endif
-  #ifdef ADIABATIC
-    real* e    = Energy->field_cpu;
-    real* e0   = Energy0->field_cpu;
+  real* rho0 = Density0->field_cpu;
   #endif
+
+#ifdef X
+  real* vx  = Vx->field_cpu;
+  #ifdef STOCKHOLMAAV
+  reduction_SUM(Vx, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
+  #ifdef Z
+  for (k = 0; k < Nz+2*NGHZ; k++) {
+  #endif
+  #ifdef Y
+      for (j = 0; j < Ny+2*NGHY; j++) {
+  #endif
+        int ll2D = l2D;
+        Vx0->field_cpu[ll2D] = Reduction2D->field_cpu[ll2D]/(real)Nx;
+  #ifdef Y
+      }
+  #endif
+  #ifdef Z
+    }
+  #endif
+  #endif
+#endif
+#ifdef X
+  real* vx0 = Vx0->field_cpu;
+#endif
+
+#ifdef Y
+  real* vy  = Vy->field_cpu;
+  #ifdef STOCKHOLMAAV
+  reduction_SUM(Vy, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
+  #ifdef Z
+  for (k = 0; k < Nz+2*NGHZ; k++) {
+  #endif
+  #ifdef Y
+      for (j = 0; j < Ny+2*NGHY; j++) {
+  #endif
+        int ll2D = l2D;
+        Vy0->field_cpu[ll2D] = Reduction2D->field_cpu[ll2D]/(real)Nx;
+  #ifdef Y
+      }
+  #endif
+  #ifdef Z
+    }
+  #endif
+  #endif
+#endif
+#ifdef Y
+  real* vy0 = Vy0->field_cpu;
+#endif
+
+#ifdef Z
+  real* vz  = Vz->field_cpu;
+  real* vz0 = Vz0->field_cpu;
+#endif
+#ifdef ADIABATIC
+  real* e    = Energy->field_cpu;
+  real* e0   = Energy0->field_cpu;
+#endif
   int pitch   = Pitch_cpu;
   int stride  = Stride_cpu;
   int size_x  = Nx+2*NGHX;
@@ -77,24 +127,15 @@ void StockholmBoundary_cpu(real dt) {
   real y_max = YMAX;
   real z_min = ZMIN;
   real z_max = ZMAX;
+
   #ifndef MANUALDAMPBOUNDY
   real dampingzone = DAMPINGZONE;
   #endif
-  #ifdef MANUALDAMPBOUNDY
-  real Y_inf = YDAMPINF;
-  real Y_sup = YDAMPSUP;
-  #endif
+
   real kbcol = KILLINGBCCOLATITUDE;
   real of    = OMEGAFRAME;
   real of0   = OMEGAFRAME0;
   real r0 = R0;
-  real g = G;
-  real mstar = MSTAR;
-  #ifdef STOCKHOLMAAV
-    real normfact = (real) Ny;
-  #else
-    real normfact = 1.;
-  #endif
   real ds = TAUDAMP;
   int periodic_z = PERIODICZ;
 //<\EXTERNAL>
@@ -134,9 +175,6 @@ void StockholmBoundary_cpu(real dt) {
   real ramp;
   real tau;
   real taud;
-  int i;
-  int j;
-  int k;
 //<\INTERNAL>
 
 //<CONSTANT>

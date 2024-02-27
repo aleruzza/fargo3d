@@ -109,12 +109,15 @@ struct fluid {
   struct field *Vx_half;
   struct field *Vy_half;
   struct field *Vz_half;
-#ifdef STOCKHOLM
+#if defined STOCKHOLM || defined BETACOOLING
   struct field2D *Density0;
   struct field2D *Energy0;
   struct field2D *Vx0;
   struct field2D *Vy0;
   struct field2D *Vz0;
+#endif
+#ifdef BETACOOLING
+  struct field2D *OmegaOverBeta;
 #endif
 };
 
