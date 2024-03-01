@@ -76,7 +76,7 @@ def check_coherence(base,params):
     return params
 
 def build_is_fresh(base,params):
-    for key in base.keys():
+    for key in list(base.keys()):
         if params[key] != base[key]:
             return 0
     return 1
