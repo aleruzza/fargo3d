@@ -1,9 +1,0 @@
-
-fargo3d:88708 terminated with signal 11 at PC=55a2859b1855 SP=7ffff854da20.  Backtrace:
-./fargo3d(+0x17855)[0x55a2859b1855]
-./fargo3d(+0x2e7e1)[0x55a2859c87e1]
-./fargo3d(+0x15254)[0x55a2859af254]
-./fargo3d(+0x3443)[0x55a28599d443]
-/lib/x86_64-linux-gnu/libc.so.6(+0x29d90)[0x1548f6829d90]
-/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80)[0x1548f6829e40]
-./fargo3d(+0x3b05)[0x55a28599db05]
