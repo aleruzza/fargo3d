@@ -1,0 +1,10 @@
+
+fargo3d:54229 terminated with signal 11 at PC=152128f9d424 SP=7ffd6d438bf8.  Backtrace:
+/lib/x86_64-linux-gnu/libc.so.6(+0x19d424)[0x152128f9d424]
+/lib/x86_64-linux-gnu/libc.so.6(+0x750e2)[0x152128e750e2]
+/lib/x86_64-linux-gnu/libc.so.6(+0x77665)[0x152128e77665]
+/lib/x86_64-linux-gnu/libc.so.6(__printf_chk+0xab)[0x152128f34c4b]
+./fargo3d(+0x37d1)[0x55f9381967d1]
+/lib/x86_64-linux-gnu/libc.so.6(+0x29d90)[0x152128e29d90]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80)[0x152128e29e40]
+./fargo3d(+0x3b75)[0x55f938196b75]

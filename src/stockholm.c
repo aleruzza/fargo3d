@@ -106,10 +106,6 @@ void StockholmBoundary_cpu(real dt) {
   real Y_inf = y_min*pow(dampingzone, 2.0/3.0);
   real Y_sup = y_max*pow(dampingzone,-2.0/3.0);
   #endif
-  #ifdef MANUALDAMPBOUNDY
-  real Y_inf = YDAMPINF;
-  real Y_sup = YDAMPSUP;
-  #endif
   real Z_inf = z_min - (z_max-z_min); // Here we push Z_inf & Z_sup
   real Z_sup = z_max + (z_max-z_min); // out of the mesh
 #ifdef CYLINDRICAL

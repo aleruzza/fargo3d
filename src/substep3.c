@@ -12,9 +12,11 @@ void SubStep3_cpu (real dt) {
 //<USER_DEFINED>
   INPUT(Energy);
 
+
 #ifdef BETACOOLING
   INPUT2D(Energy0);
   INPUT2D(OmegaOverBeta);
+  INPUT(Density);
 #endif
 #ifdef X
   INPUT(Vx_temp);
@@ -33,6 +35,7 @@ void SubStep3_cpu (real dt) {
 #ifdef BETACOOLING
   real* e0   = Energy0->field_cpu;
   real* OoB = OmegaOverBeta->field_cpu;
+  real* rho = Density->field_cpu;
 #endif
 #ifdef X
   real* vx  = Vx_temp->field_cpu;
@@ -124,14 +127,12 @@ void SubStep3_cpu (real dt) {
 	div_v += (vz[llzp]*SurfZ(i,j,k+1)-vz[ll]*SurfZ(i,j,k));
 #endif
 	term = 0.5 * dt * (gamma - 1.) * div_v * InvVol(i,j,k);
+#ifndef BETACOOLING
 	e[ll] *= (1.0-term)/(1.0+term);
-
-//beta cooling
-
-#ifdef BETACOOLING
-e[ll] = (e[ll] + OoB[ll2D] *dt * e0[ll2D])/(1.0 + OoB[ll2D]*dt);
 #endif
-
+#ifdef BETACOOLING
+  e[ll] = (e[ll]*(1.0-term) + e0[ll2D]*rho[ll]*OoB[ll2D]*dt)/(1+term+OoB[ll2D]*dt);
+#endif
   //end beta cooling
 //<\#>
 #ifdef X

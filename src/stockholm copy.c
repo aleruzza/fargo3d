@@ -88,6 +88,9 @@ int i,j,k;
 #ifdef Y
   real* vy  = Vy->field_cpu;
   #ifdef STOCKHOLMAAV
+  reduction_SUM(V
+  real* vy  = Vy->field_cpu;
+  #ifdef STOCKHOLMAAV
   reduction_SUM(Vy, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
   #ifdef Z
   for (k = 0; k < Nz+2*NGHZ; k++) {

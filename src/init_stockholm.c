@@ -81,7 +81,7 @@ void _init_stockholm() {
 #endif
 #ifdef ADIABATIC
       if (error_energy)
-	e0[l2D]   = e[l];
+	e0[l2D]   = e[l]/rho[l];
 #endif
 #ifdef X
       if (error_vx)

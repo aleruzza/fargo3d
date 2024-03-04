@@ -245,7 +245,7 @@ the target velocity in Stockholm's damping prescription. We copy the
 value above *after* rescaling, and after any initial correction to
 OMEGAFRAME (which is used afterwards to build the initial Vx field. */
 
-  
+
   if(Restart == YES || Restart_Full == YES) {
     CondInit (); //Needed even for restarts: some setups have custom
 		 //definitions (eg potential for setup MRI) or custom
@@ -405,9 +405,9 @@ for (i = begin_i; i<=NTOT; i++) { // MAIN LOOP,
     #ifdef COLLISIONPREDICTOR
           FARGO_SAFE(Collisions(0.5*dt, 0)); // 0 --> V is used and we update v_half.
     #endif
-          
-          MULTIFLUID(Sources(dt)); //v_half is used in the R.H.S
 
+          MULTIFLUID(Sources(dt)); //v_half is used in the R.H.S
+  
     #ifdef DRAGFORCE
           FARGO_SAFE(Collisions(dt, 1)); // 1 --> V_temp is used.
     #endif
@@ -415,19 +415,19 @@ for (i = begin_i; i<=NTOT; i++) { // MAIN LOOP,
     #ifdef DUSTDIFFUSION
           FARGO_SAFE(DustDiffusion_Main(dt));
     #endif
-          
+    
           MULTIFLUID(Transport(dt));
 
           PhysicalTime+=dt;
           Timestepcount++;
-
+    
     #ifdef STOCKHOLM
           MULTIFLUID(StockholmBoundary(dt));
     #endif
-
+    
           //We apply comms and boundaries at the end of the step
           MULTIFLUID(FillGhosts(PrimitiveVariables()));
-
+    
           if(CPU_Master) {
       if (FullArrayComms)
         printf("%s", "!");
