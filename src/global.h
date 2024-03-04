@@ -365,6 +365,7 @@ void (*comm)(int);
 void (*Reset_field)(Field*);
 void (*ComputeTotalDensity)();
 void (*copy_field)(Field*,Field*);
+void (*copy_field2D)(Field2D*,Field2D*);
 //DUST DIFFUSION
 void (*DustDiffusion_Core)(real);
 void (*DustDiffusion_Coefficients)();

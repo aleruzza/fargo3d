@@ -350,7 +350,7 @@ MAINOBJ  = LowTasks.o psys.o main.o param.o var.o usage.o   	    \
 	   collisions.o resetfield.o totaldens.o		\
 	   floor.o ShearingPeriodicBC.o summary.o		\
 	   dust_diffusion_main.o dust_diffusion_core.o		\
-	   dust_diffusion_coefficients.o copy_field.o           \
+	   dust_diffusion_coefficients.o copy_field.o  copy_field2D.o         \
 	   nimhd_hall_effect.o 					\
 	   nimhd_hall_effect_emfx.o				\
 	   nimhd_hall_effect_emfy.o 				\

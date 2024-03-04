@@ -350,6 +350,7 @@ ex void RamComputeUstar_cpu(real);
 ex void RamSlopes_cpu(Field*);
 
 ex void copy_field_cpu(Field*,Field*);
+ex void copy_field2D_cpu(Field2D*,Field2D*);
 
 //Dust Diffusion module Prototypes
 ex void DustDiffusion_Main(real);
@@ -564,6 +565,7 @@ ex void CheckMuteZ_gpu(void);
 ex void SetupHook1_gpu (void);
 
 ex void copy_field_gpu(Field*,Field*);
+ex void copy_field2D_gpu(Field2D*,Field2D*);
 
 //DIFFUSION-----------------------------------------------
 ex void DustDiffusion_Core_gpu(real);

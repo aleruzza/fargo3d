@@ -97,6 +97,7 @@ void ChangeArch() {
   //-----------------------------------------------------
 
   copy_field = copy_field_cpu;
+  copy_field2D = copy_field2D_cpu;
 
   //MHD------------------------------------------------
   ComputeSlopes = ComputeSlopes_cpu;
@@ -265,6 +266,12 @@ void ChangeArch() {
 	if(strval[0] == 'g'){
 	  copy_field = copy_field_gpu;
 	  printf("Copy field runs on the GPU\n");
+	}
+      }
+      if (strcmp(name, "copyfield2D") == 0) {
+	if(strval[0] == 'g'){
+	  copy_field2D = copy_field2D_gpu;
+	  printf("Copy field 2D runs on the GPU\n");
 	}
       }
       if (strcmp(name, "reduction") == 0) {

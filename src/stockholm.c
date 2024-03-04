@@ -36,15 +36,15 @@ void StockholmBoundary_cpu(real dt) {
   #endif
   #ifdef STOCKHOLMAAV
     reduction_SUM(Density, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
-    copy_field(Density0, Reduction2D);
+    copy_field2D(Density0, Reduction2D);
   #endif
   #ifdef STOCKHOLMAAV
     reduction_SUM(Vx, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
-    copy_field(Vx0, Reduction2D);
+    copy_field2D(Vx0, Reduction2D);
   #endif
   #ifdef STOCKHOLMAAV
     reduction_SUM(Vy, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
-    copy_field(Vy0, Reduction2D);
+    copy_field2D(Vy0, Reduction2D);
   #endif
 //<\USER_DEFINED>
 
