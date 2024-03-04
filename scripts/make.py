@@ -71,11 +71,12 @@ def check_coherence(base,params):
             if key in base:
                 continue
             else:
-                params.pop(key)
+                if key != "setup":     #Used in 'make blocks'
+                    params.pop(key)
     return params
 
 def build_is_fresh(base,params):
-    for key in base.keys():
+    for key in list(base.keys()):
         if params[key] != base[key]:
             return 0
     return 1
