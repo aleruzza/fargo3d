@@ -113,7 +113,7 @@ ex void AdvanceSystemRK5(real);
 ex void FillGhosts (int);
 ex void Sources(real);
 ex void Transport(real);
-ex void SetupHook1_cpu (void);
+ex void SetupHook1_cpu (real);
 
 //boundary.c Prototypes
 #include "../scripts/bound_proto.code"
@@ -562,7 +562,7 @@ ex void Fill_GhostsX_gpu(void);
 
 ex void CheckMuteY_gpu(void);
 ex void CheckMuteZ_gpu(void);
-ex void SetupHook1_gpu (void);
+ex void SetupHook1_gpu (real);
 
 ex void copy_field_gpu(Field*,Field*);
 ex void copy_field2D_gpu(Field2D*,Field2D*);

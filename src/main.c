@@ -418,6 +418,10 @@ for (i = begin_i; i<=NTOT; i++) { // MAIN LOOP,
     
           MULTIFLUID(Transport(dt));
 
+/* using this method does not work
+          if(Fluidtype==GAS)
+            SetupHook1(dt);
+*/
           PhysicalTime+=dt;
           Timestepcount++;
     

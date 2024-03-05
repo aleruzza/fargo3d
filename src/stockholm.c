@@ -36,14 +36,17 @@ void StockholmBoundary_cpu(real dt) {
   #endif
   #ifdef STOCKHOLMAAV
     reduction_SUM(Density, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
+    INPUT2D(Reduction2D);
     copy_field2D(Density0, Reduction2D);
   #endif
   #ifdef STOCKHOLMAAV
     reduction_SUM(Vx, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
+    INPUT2D(Reduction2D);
     copy_field2D(Vx0, Reduction2D);
   #endif
   #ifdef STOCKHOLMAAV
     reduction_SUM(Vy, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
+    INPUT2D(Reduction2D);
     copy_field2D(Vy0, Reduction2D);
   #endif
 //<\USER_DEFINED>
@@ -91,7 +94,7 @@ void StockholmBoundary_cpu(real dt) {
   real g = G;
   real mstar = MSTAR;
   #ifdef STOCKHOLMAAV
-    real normfact = (real) Ny;
+    real normfact = (real) Nx;
   #else
     real normfact = 1.;
   #endif
@@ -192,9 +195,9 @@ void StockholmBoundary_cpu(real dt) {
 	tau = ds*sqrt(ymed(j)*ymed(j)*ymed(j)/G/MSTAR);
 	if(ramp>0.0) {
 	  taud = tau/ramp;
-	  rho[l] = (rho[l]*taud+rho0[l2D]*dt)/(dt+taud);
+	  rho[l] = (rho[l]*taud+rho0[l2D]*dt/normfact)/(dt+taud);
 #ifdef X
-	  vx0_target = vx0[l2D];
+	  vx0_target = vx0[l2D]/normfact;
 	  radius = ymed(j);
 #ifdef SPHERICAL
 	  radius *= sin(zmed(k));
@@ -205,7 +208,7 @@ void StockholmBoundary_cpu(real dt) {
 #ifdef Y
 if((ymed(j)<1) && (i==6))
  // printf("%f, %f, %f, %f\n", ymed(j), dt, taud, vy[l]);
-    vy[l] = (vy[l]*taud+vy0[l2D]*dt)/(dt+taud);
+    vy[l] = (vy[l]*taud+vy0[l2D]*dt/normfact)/(dt+taud);
     //vy[l] = vy0[l2D];
 #endif
 	}

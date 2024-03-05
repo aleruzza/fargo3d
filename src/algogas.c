@@ -29,7 +29,7 @@ void FillGhosts (int var) {
 
 void Sources(real dt) {
      
-  SetupHook1 (); //Setup specific hook. Defaults to empty function.
+ 
   
   //Equations of state-----------------------------------------------------------
   #ifdef ADIABATIC

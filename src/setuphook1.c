@@ -7,9 +7,14 @@
 #include "fargo3d.h"
 //<\INCLUDES>
 
-void SetupHook1_cpu() {  // Empty function. May be used as a template for custom function in setup directory.
+void SetupHook1_cpu(real dt) {  // Empty function. May be used as a template for custom function in setup directory.
 
 //<USER_DEFINED>
+INPUT(Energy);
+INPUT2D(Energy0);
+INPUT2D(OmegaOverBeta);
+INPUT(Density);
+OUTPUT(Energy);
 //<\USER_DEFINED>
 
 //<EXTERNAL>
@@ -18,14 +23,18 @@ void SetupHook1_cpu() {  // Empty function. May be used as a template for custom
   int size_x = Nx+2*NGHX;
   int size_y = Ny+2*NGHY;
   int size_z = Nz+2*NGHZ;
+  real* e   = Energy->field_cpu;
+  real* e0   = Energy0->field_cpu;
+  real* OoB = OmegaOverBeta->field_cpu;
+  real* rho = Density->field_cpu;
 //<\EXTERNAL>
   
 //<INTERNAL>
-  int __attribute__((unused))i; //Variables reserved
-  int __attribute__((unused))j; //for the topology
-  int __attribute__((unused))k; //of the kernels
+  int i; //Variables reserved
+  int j; //for the topology
+  int k; //of the kernels
   int ll;
-  (void)ll;
+  int ll2D;
 //<\INTERNAL>
 
 //<MAIN_LOOP>
@@ -42,6 +51,9 @@ void SetupHook1_cpu() {  // Empty function. May be used as a template for custom
       for(i=0; i<size_x; i++) {
 #endif
 //<#>
+ll=l;
+ll2D = l2D;
+e[ll] = (e[ll]+dt*OoB[ll2D]*e0[ll2D]*rho[ll])/(1.0+dt*OoB[ll2D]);
 //<\#>
 #ifdef X
       }
