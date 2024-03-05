@@ -11,104 +11,104 @@
 void StockholmBoundary_cpu(real dt) {
 
 //<USER_DEFINED>
-  INPUT(Density);
-  INPUT2D(Density0);
-  OUTPUT(Density);
-  #ifdef ADIABATIC
-    INPUT(Energy);
-    INPUT2D(Energy0);
-    OUTPUT(Energy);
-  #endif
-  #ifdef X
-    INPUT(Vx);
-    INPUT2D(Vx0);
-    OUTPUT(Vx);
-  #endif
-  #ifdef Y
-    INPUT(Vy);
-    INPUT2D(Vy0);
-    OUTPUT(Vy);
-  #endif
-  #ifdef Z
-    INPUT(Vz);
-    INPUT2D(Vz0);
-    OUTPUT(Vz);
-  #endif
-  #ifdef STOCKHOLMAAV
-    reduction_SUM(Density, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
-    INPUT2D(Reduction2D);
-    copy_field2D(Density0, Reduction2D);
-  #endif
-  #ifdef STOCKHOLMAAV
-    reduction_SUM(Vx, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
-    INPUT2D(Reduction2D);
-    copy_field2D(Vx0, Reduction2D);
-  #endif
-  #ifdef STOCKHOLMAAV
-    reduction_SUM(Vy, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
-    INPUT2D(Reduction2D);
-    copy_field2D(Vy0, Reduction2D);
-  #endif
+INPUT(Density);
+INPUT2D(Density0);
+OUTPUT(Density);
+#ifdef ADIABATIC
+  INPUT(Energy);
+  INPUT2D(Energy0);
+  OUTPUT(Energy);
+#endif
+#ifdef X
+  INPUT(Vx);
+  INPUT2D(Vx0);
+  OUTPUT(Vx);
+#endif
+#ifdef Y
+  INPUT(Vy);
+  INPUT2D(Vy0);
+  OUTPUT(Vy);
+#endif
+#ifdef Z
+  INPUT(Vz);
+  INPUT2D(Vz0);
+  OUTPUT(Vz);
+#endif
+#ifdef STOCKHOLMAAV
+  reduction_SUM(Density, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
+  INPUT2D(Reduction2D);
+  copy_field2D(Density0, Reduction2D);
+#endif
+#ifdef STOCKHOLMAAV
+  reduction_SUM(Vx, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
+  INPUT2D(Reduction2D);
+  copy_field2D(Vx0, Reduction2D);
+#endif
+#ifdef STOCKHOLMAAV
+  reduction_SUM(Vy, 0, Ny+2*NGHY, 0, Nz+2*NGHZ);
+  INPUT2D(Reduction2D);
+  copy_field2D(Vy0, Reduction2D);
+#endif
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-  real* rho  = Density->field_cpu;
-  real* rho0 = Density0->field_cpu;
-  #ifdef X
-    real* vx  = Vx->field_cpu;
-    real* vx0 = Vx0->field_cpu;
-  #endif
-  #ifdef Y
-    real* vy  = Vy->field_cpu;
-    real* vy0 = Vy0->field_cpu;
-  #endif
-  #ifdef Z
-    real* vz  = Vz->field_cpu;
-    real* vz0 = Vz0->field_cpu;
-  #endif
-  #ifdef ADIABATIC
-    real* e    = Energy->field_cpu;
-    real* e0   = Energy0->field_cpu;
-  #endif
-  int pitch   = Pitch_cpu;
-  int stride  = Stride_cpu;
-  int size_x  = Nx+2*NGHX;
-  int size_y  = Ny+2*NGHY;
-  int size_z  = Nz+2*NGHZ;
-  int pitch2d = Pitch2D;
-  real y_min = YMIN;
-  real y_max = YMAX;
-  real z_min = ZMIN;
-  real z_max = ZMAX;
-  #ifndef MANUALDAMPBOUNDY
-  real dampingzone = DAMPINGZONE;
-  #endif
-  #ifdef MANUALDAMPBOUNDY
-  real Y_inf = YDAMPINF;
-  real Y_sup = YDAMPSUP;
-  #endif
-  real kbcol = KILLINGBCCOLATITUDE;
-  real of    = OMEGAFRAME;
-  real of0   = OMEGAFRAME0;
-  real r0 = R0;
-  real g = G;
-  real mstar = MSTAR;
-  #ifdef STOCKHOLMAAV
-    real normfact = (real) Nx;
-  #else
-    real normfact = 1.;
-  #endif
-  real ds = TAUDAMP;
-  int periodic_z = PERIODICZ;
+real* rho  = Density->field_cpu;
+real* rho0 = Density0->field_cpu;
+#ifdef X
+  real* vx  = Vx->field_cpu;
+  real* vx0 = Vx0->field_cpu;
+#endif
+#ifdef Y
+  real* vy  = Vy->field_cpu;
+  real* vy0 = Vy0->field_cpu;
+#endif
+#ifdef Z
+  real* vz  = Vz->field_cpu;
+  real* vz0 = Vz0->field_cpu;
+#endif
+#ifdef ADIABATIC
+  real* e    = Energy->field_cpu;
+  real* e0   = Energy0->field_cpu;
+#endif
+int pitch   = Pitch_cpu;
+int stride  = Stride_cpu;
+int size_x  = Nx+2*NGHX;
+int size_y  = Ny+2*NGHY;
+int size_z  = Nz+2*NGHZ;
+int pitch2d = Pitch2D;
+real y_min = YMIN;
+real y_max = YMAX;
+real z_min = ZMIN;
+real z_max = ZMAX;
+#ifndef MANUALDAMPBOUNDY
+real dampingzone = DAMPINGZONE;
+#endif
+#ifdef MANUALDAMPBOUNDY
+real Y_inf = YDAMPINF;
+real Y_sup = YDAMPSUP;
+#endif
+real kbcol = KILLINGBCCOLATITUDE;
+real of    = OMEGAFRAME;
+real of0   = OMEGAFRAME0;
+real r0 = R0;
+real g = G;
+real mstar = MSTAR;
+#ifdef STOCKHOLMAAV
+  real normfact = (real) Nx;
+#else
+  real normfact = 1.;
+#endif
+real ds = TAUDAMP;
+int periodic_z = PERIODICZ;
 //<\EXTERNAL>
 
 //<INTERNAL>
-  
-  //  Similar to Benitez-Llambay et al. (2016), Eq. 7.
-  #ifndef MANUALDAMPBOUNDY
-  real Y_inf = y_min*pow(dampingzone, 2.0/3.0);
-  real Y_sup = y_max*pow(dampingzone,-2.0/3.0);
-  #endif
+
+//  Similar to Benitez-Llambay et al. (2016), Eq. 7.
+#ifndef MANUALDAMPBOUNDY
+real Y_inf = y_min*pow(dampingzone, 2.0/3.0);
+real Y_sup = y_max*pow(dampingzone,-2.0/3.0);
+#endif
   real Z_inf = z_min - (z_max-z_min); // Here we push Z_inf & Z_sup
   real Z_sup = z_max + (z_max-z_min); // out of the mesh
 #ifdef CYLINDRICAL
