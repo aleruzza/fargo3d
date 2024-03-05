@@ -19,7 +19,7 @@ OUTPUT(Energy);
 
 //<EXTERNAL>
   int pitch  = Pitch_cpu;
-  int pitch2D  = Pitch2D;
+  int pitch2d  = Pitch2D;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;
   int size_y = Ny+2*NGHY;
