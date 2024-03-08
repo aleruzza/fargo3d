@@ -52,8 +52,8 @@ OUTPUT(Density);
 //<\USER_DEFINED>
 
 //<EXTERNAL>
-real* rho  = Density->field_cpu;
-real* rho0 = Density0->field_cpu;
+ real* rho  = Density->field_cpu;
+ real* rho0 = Density0->field_cpu;
 #ifdef X
   real* vx  = Vx->field_cpu;
   real* vx0 = Vx0->field_cpu;
@@ -70,44 +70,44 @@ real* rho0 = Density0->field_cpu;
   real* e    = Energy->field_cpu;
   real* e0   = Energy0->field_cpu;
 #endif
-int pitch   = Pitch_cpu;
-int stride  = Stride_cpu;
-int size_x  = Nx+2*NGHX;
-int size_y  = Ny+2*NGHY;
-int size_z  = Nz+2*NGHZ;
-int pitch2d = Pitch2D;
-real y_min = YMIN;
-real y_max = YMAX;
-real z_min = ZMIN;
-real z_max = ZMAX;
+  int pitch   = Pitch_cpu;
+  int stride  = Stride_cpu;
+  int size_x  = Nx+2*NGHX;
+  int size_y  = Ny+2*NGHY;
+  int size_z  = Nz+2*NGHZ;
+  int pitch2d = Pitch2D;
+  real y_min = YMIN;
+  real y_max = YMAX;
+  real z_min = ZMIN;
+  real z_max = ZMAX;
 #ifndef MANUALDAMPBOUNDY
-real dampingzone = DAMPINGZONE;
+ real dampingzone = DAMPINGZONE;
 #endif
 #ifdef MANUALDAMPBOUNDY
-real Y_inf = YDAMPINF;
-real Y_sup = YDAMPSUP;
+  real Y_inf = YDAMPINF;
+  real Y_sup = YDAMPSUP;
 #endif
-real kbcol = KILLINGBCCOLATITUDE;
-real of    = OMEGAFRAME;
-real of0   = OMEGAFRAME0;
-real r0 = R0;
-real g = G;
-real mstar = MSTAR;
+  real kbcol = KILLINGBCCOLATITUDE;
+  real of    = OMEGAFRAME;
+  real of0   = OMEGAFRAME0;
+  real r0 = R0;
+  real g = G;
+  real mstar = MSTAR;
 #ifdef STOCKHOLMAAV
   real normfact = (real) Nx;
 #else
   real normfact = 1.;
 #endif
-real ds = TAUDAMP;
-int periodic_z = PERIODICZ;
+  real ds = TAUDAMP;
+  int periodic_z = PERIODICZ;
 //<\EXTERNAL>
 
 //<INTERNAL>
 
 //  Similar to Benitez-Llambay et al. (2016), Eq. 7.
 #ifndef MANUALDAMPBOUNDY
-real Y_inf = y_min*pow(dampingzone, 2.0/3.0);
-real Y_sup = y_max*pow(dampingzone,-2.0/3.0);
+ real Y_inf = y_min*pow(dampingzone, 2.0/3.0);
+ real Y_sup = y_max*pow(dampingzone,-2.0/3.0);
 #endif
   real Z_inf = z_min - (z_max-z_min); // Here we push Z_inf & Z_sup
   real Z_sup = z_max + (z_max-z_min); // out of the mesh
