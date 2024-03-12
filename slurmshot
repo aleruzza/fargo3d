@@ -52,6 +52,9 @@ if not os.path.exists(args.sub):
         print('Error: submission file template not found.')
         exit(1)
 
+#copying parafile
+os.system(f'cp {args.parfile} {rootn}/para.csv')
+
 #preparing folders 
 if 'outputs' not in os.listdir(rootn):
         os.mkdir(f'{rootn}/outputs')
@@ -64,7 +67,11 @@ if 'slurm_log' not in os.listdir(rootn):
 
 print('Subdirectories created. I will now generate all the parameters and submission files.')
 #iterate on different simulations
-for current_sim_n, para in tqdm(para_tab.iloc[args.start:args.end].iterrows()):
+if args.end==-1:
+    parait = para_tab.iloc[int(args.start):]
+else:
+    parait = para_tab.iloc[int(args.start):int(args.end)]
+for current_sim_n, para in tqdm(parait.iterrows()):
 
         #preparing folder of the single sim
         current_sim_folder = f'{rootn}/outputs/out_{current_sim_n:05}'
@@ -82,6 +89,7 @@ for current_sim_n, para in tqdm(para_tab.iloc[args.start:args.end].iterrows()):
                         for key, value in para_tab.loc[current_sim_n].items():
                                 filedata = filedata.replace(f'${key}$', f'{value}')
                         filedata = filedata.replace('$outf$', f'{rootn}/outputs/out_{current_sim_n:05}')
+                        filedata = filedata.replace('$setup$', args.setup)
                 # Write the file out again
                 with open(f'{rootn}/parafiles/para_{current_sim_n:05}.par', 'w') as file:
                         file.write(filedata)
