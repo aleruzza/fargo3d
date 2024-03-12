@@ -197,7 +197,7 @@ OUTPUT(Density);
 	  taud = tau/ramp;
 	  rho[l] = (rho[l]*taud+rho0[l2D]*dt/normfact)/(dt+taud);
 #ifdef ADIABATIC
-    e[l] = (e[l]*taud+e0[l2D]*dt/normfact)/(dt+taud);
+    e[l] = (e[l]*taud+e0[l2D]*rho[l]*dt/normfact)/(dt+taud);
 #endif
 #ifdef X
 	  vx0_target = vx0[l2D]/normfact;
