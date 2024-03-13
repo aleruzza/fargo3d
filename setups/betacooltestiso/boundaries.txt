@@ -55,9 +55,6 @@ ENERGY_RT_RIGHT:
 ### SUPPORT IN THEIR ROTATIONAL EQUILIBRIUM
 ##############################################################
  
-ENERGYEXTR:
-	Centered:	         |en*pow(Ymed(jgh)/Ymed(jact), 2*'FLARINGINDEX'-1-'SIGMASLOPE')|en|
-
 KEPLERIAN2DDENS:                       #Analytic extension of surface density profile
             Centered:            |surfdens*pow(Ymed(jact)/Ymed(jgh),'SIGMASLOPE')|surfdens|
 
