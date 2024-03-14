@@ -1,0 +1,51 @@
+# You may enter a description between the BEGIN and END labels.
+# BEGIN
+# The "fargo" setup is the 2D polar setup that corresponds to the
+# standard setup of the former FARGO code.
+# In order to run it, do:
+# make SETUP=fargo
+# fargo3d in/fargo.par
+# END
+#-------------------------------------------------------------------------
+
+FLUIDS := 0 1
+NFLUIDS = 2
+FARGO_OPT += -DNFLUIDS=${NFLUIDS}
+
+#Monitoring options
+MONITOR_SCALAR = MASS | MOM_X | TORQ
+MONITOR_Y_RAW  = TORQ
+
+#Damping zones in the active mesh
+
+FARGO_OPT += -DSTOCKHOLM
+#FARGO_OPT += -DSTOCKHOLMAAV
+
+FARGO_OPT +=  -DX
+FARGO_OPT +=  -DY
+
+#Equation of State
+FARGO_OPT +=  -DADIABATIC
+#FARGO_OPT +=  -DBETACOOLING
+#FARGO_OPT +=  -DISOTHERMAL
+
+#Drag force between species
+FARGO_OPT += -DDRAGFORCE
+FARGO_OPT += -DSTOKESNUMBER
+FARGO_OPT += -DDUSTDIFFUSION
+
+#Coordinate System.
+FARGO_OPT +=  -DCYLINDRICAL
+
+FARGO_OPT += -DLONGSUMMARY
+
+FARGO_OPT += -DPOTENTIAL
+
+FARGO_OPT += -DALPHAVISCOSITY
+
+#Cuda blocks
+ifeq (${GPU}, 1)
+FARGO_OPT += -DBLOCK_X=16
+FARGO_OPT += -DBLOCK_Y=16
+FARGO_OPT += -DBLOCK_Z=1
+endif

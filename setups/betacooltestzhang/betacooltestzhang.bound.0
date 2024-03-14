@@ -14,5 +14,5 @@ Vy:
 	Ymax: NOBOUNDARY
 
 Energy:
-	Ymin: ENERGYEXTR
-	Ymax: ENERGYEXTR
+	Ymin: SYMMETRIC
+	Ymax: SYMMETRIC
