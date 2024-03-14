@@ -130,8 +130,13 @@ void SubStep3_cpu (real dt) {
 #ifndef BETACOOLING
 	e[ll] *= (1.0-term)/(1.0+term);
 #endif
+#ifndef METHOD2BC
 #ifdef BETACOOLING
   e[ll] = (e[ll]*(1.0-term) + e0[ll2D]*rho[ll]*OoB[ll2D]*dt)/(1+term+OoB[ll2D]*dt);
+#endif
+#endif
+#ifdef METHOD2BC
+  e[ll] *= (1.0-term)/(1.0+term);
 #endif
   //end beta cooling
 //<\#>
