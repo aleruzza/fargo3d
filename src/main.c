@@ -420,7 +420,7 @@ for (i = begin_i; i<=NTOT; i++) { // MAIN LOOP,
 
 // using this method does not work
 #ifdef METHOD2BC
-          SelectFluid(GAS);
+          SelectFluid(0);
           SetupHook1(dt);
 #endif
 
