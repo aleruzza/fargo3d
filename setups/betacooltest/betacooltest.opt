@@ -23,10 +23,12 @@ FARGO_OPT += -DSTOCKHOLMAAV
 
 FARGO_OPT +=  -DX
 FARGO_OPT +=  -DY
+FARGO_OPT += -DRAM
 
-#Equation of State
+#Equ\ation of State
 FARGO_OPT +=  -DADIABATIC
 FARGO_OPT +=  -DBETACOOLING
+FARGO_OPT +=  -DMETHOD2BC
 #FARGO_OPT +=  -DISOTHERMAL
 
 #Drag force between species
