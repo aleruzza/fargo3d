@@ -1,0 +1,45 @@
+Setup			p3diso
+
+### Disk parameters
+
+AspectRatio     	0.1            Thickness over Radius in the disc
+Sigma0			1.0e-3	Surface Density at r=1
+Alpha			1.0e-4		Uniform kinematic viscosity
+SigmaSlope		1.5		Slope of surface
+FlaringIndex		0.5
+
+### Planet parameters
+
+PlanetConfig		planets/jupiter.cfg
+ThicknessSmoothing 	0.1		Smoothing parameters in disk thickness
+
+### Numerical method parameters
+
+Disk			YES
+OmegaFrame     		1.0
+Frame			F
+IndirectTerm		yes
+
+### Mesh parameters
+
+Nx			880		Azimuthal number of zones 
+Ny               	369		Radial number of zones
+Nz			56		Number of zones in colatitude
+Ymin			0.3		Inner boundary radius
+Ymax			5.0		Outer boundary radius
+Spacing			log
+Zmin			1.0
+Zmax			1.570796327
+Xmin			-3.141592653589793
+Xmax			3.141592653589793
+
+### Output control parameters
+
+Ntot			10001		Total number of time steps
+Ninterm	 		20		Time steps between outputs
+DT			0.314159265359	Time step length. 2PI = 1 orbit
+OutputDir		@outputs/p3diso
+
+
+Field 			gasdens
+PlotLine		field[-1,:,:]
