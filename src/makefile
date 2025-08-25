@@ -96,7 +96,7 @@ endif
 include ${FARGO_OPT_FILE} #The name must not contain digits
 #--------------------FARGO_VARIABLES----------------------------------
 ifndef FARGO_ARCH
-FARGO_ARCH  = ${FARGO_ARCH}
+FARGO_ARCH  = LINUX
 endif
 ifeq (-DGPU,${findstring -DGPU,${FARGO_OPT}})
 	FARGO_GPU   = 1
@@ -133,7 +133,7 @@ PARACC_LINUX  = mpicc
 LIBS_LINUX    = -lm
 INC_LINUX     = 
 NVCC_LINUX    = nvcc
-CUDAOPT_LINUX = -O3 -w #-arch=sm_XX # try utils/cuda/get_cuda_sm.sh
+CUDAOPT_LINUX = -O3 -w -arch=sm_80 # try utils/cuda/get_cuda_sm.sh
 PARAINC_LINUX = 
 PARALIB_LINUX =
 CUDAINC_LINUX = -I${CUDA}/include/
