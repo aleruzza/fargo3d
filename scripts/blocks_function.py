@@ -33,7 +33,8 @@ def opt_reader():
 
     force = False
     silent =" > /dev/null 2>&1"
-        
+    setup = ''
+    filename = ''
     for opt,arg in options:
         if opt in ('-s', '--setup'):
             setup = arg
@@ -71,6 +72,7 @@ def append_blocks(x,y,z):
         
 def analyze_data():
     temp = open(FILENAME[:-2]+'_blocks.temp',"r")
+    print(temp)
     lines = temp.readlines()
     temp.close()
     name = []; nx = []; ny = []; nz = []; time = []

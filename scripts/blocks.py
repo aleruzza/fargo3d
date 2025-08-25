@@ -33,7 +33,8 @@ def opt_reader():
 
     force = False
     silent =" > /dev/null"
-        
+    setup = ''
+
     for opt,arg in options:
         if opt in ('-s', '--setup'):
             setup = arg
@@ -42,6 +43,7 @@ def opt_reader():
             force = True
             continue
 
+    
     global SETUPNAME; SETUPNAME = setup
     global FORCE; FORCE = force
 
@@ -75,6 +77,7 @@ opt_reader()
 gpu_objects = analyze_makefile()
 for name in gpu_objects:
     instruction = PYTHON_CMD + SCRIPTSDIR + "/blocks_function.py -s "+ SETUPNAME + " -g " + name
+    print(instruction)
     if FORCE:
         instruction += " -f"
     os.system(instruction)

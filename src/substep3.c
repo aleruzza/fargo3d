@@ -76,6 +76,7 @@ void SubStep3_cpu (real dt) {
   real term;
   real div_v;
   real temp_p;
+  real tcool;
 //<\INTERNAL>
   
 //<CONSTANT>
@@ -126,17 +127,22 @@ void SubStep3_cpu (real dt) {
 #ifdef Z
 	div_v += (vz[llzp]*SurfZ(i,j,k+1)-vz[ll]*SurfZ(i,j,k));
 #endif
-	term = 0.5 * dt * (gamma - 1.) * div_v * InvVol(i,j,k);
 #ifndef BETACOOLING
+	term = 0.5 * dt * (gamma - 1.) * div_v * InvVol(i,j,k);
 	e[ll] *= (1.0-term)/(1.0+term);
 #endif
 #ifndef METHOD2BC
 #ifdef BETACOOLING
-  e[ll] = (e[ll]*(1.0-term) + e0[ll2D]*rho[ll]*OoB[ll2D]*dt)/(1+term+OoB[ll2D]*dt);
+	tcool = OoB[ll2D];
+	term = 0.5 * dt * (gamma - 1.0) * div_v * InvVol(i,j,k) + 0.5*tcool*dt;
+  	e[ll] = (e[ll]*(1.0-term) + e0[ll2D]*rho[ll]*tcool*dt)/(1.0+term);
+	//term = 0.5 * dt * (gamma -1.) * div_v * InvVol(i,j,k);
+	//e[ll] *= (1.0-term)/(1.0+term);
+	//e[ll] = e0[ll2D]*rho[ll] + (e[ll]-e0[ll2D]*rho[ll])*exp(-OoB[ll2D]*dt);
+	//e[l] = (e[l]*taud+e0[l2D]*rho0[l2D]*dt/normfact)/(dt+taud);
 #endif
 #endif
 #ifdef METHOD2BC
-  e[ll] *= (1.0-term)/(1.0+term);
 #endif
   //end beta cooling
 //<\#>

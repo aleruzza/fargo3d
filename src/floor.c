@@ -12,11 +12,14 @@ void Floor_cpu() {
 //<USER_DEFINED>
   INPUT(Density);
   OUTPUT(Density);
+  INPUT(Energy);
+  OUTPUT(Energy);
 //<\USER_DEFINED>
 
 
 //<EXTERNAL>
   real* dens = Density->field_cpu;
+  real* energy = Energy->field_cpu;
   int pitch  = Pitch_cpu;
   int stride = Stride_cpu;
   int size_x = Nx+2*NGHX;
@@ -26,6 +29,7 @@ void Floor_cpu() {
 
 //<INTERNAL>
   int i;
+  real scale;
   int j;
   int k;
   int ll;
@@ -47,7 +51,13 @@ void Floor_cpu() {
 //<#>
 	ll = l;
 	if (dens[ll]<1.0e-11)
+	{
 	  dens[ll] = 1.0e-11;
+	}
+	if (energy[ll]<1.0e-11)
+	{
+		energy[ll] = 1.0e-11;
+	}
 //<\#>
 #ifdef X
       }

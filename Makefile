@@ -93,7 +93,7 @@ endif
 blocks:
 #Syntax: make blocks setup=SETUPNAME
 	@echo "Initial built in progress. Please wait"
-	@${PYTHON} ${SCRIPTSDIR}/blocks.py --setup=${setup}
+	@${PYTHON} ${SCRIPTSDIR}/blocks.py -f -s ${setup}
 cuda:
 	@${PYTHON} ${SCRIPTSDIR}/make.py GPU=1 ${MAKEFLAGS}
 nocuda:
