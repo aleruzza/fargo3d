@@ -37,3 +37,8 @@ Vz:
         Zmin:   OPENVTHETABEG
         Zmax:   ANTISYMMETRIC
 
+Energy:
+        Ymin: SYMMETRIC
+        Ymax: SYMMETRIC
+        Zmin: KEPLERIAN3DSPHENGCOL
+        Zmax: SYMMETRIC
